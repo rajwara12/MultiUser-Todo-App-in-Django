@@ -1,0 +1,49 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}My Todo's{% endblock title %}
+{% block body %}
+{% load humanize %}
+<div class="container">
+    <h2 class="display-2 text-center">Todo's App</h2>
+    <form action="http://127.0.0.1:8000/todo/" method="post">{% csrf_token %}
+    <div class="form-group">
+      <label for=""></label>
+      <input type="text" name="todo" required id="" class="form-control" placeholder="Put your Todo here" aria-describedby="helpId">
+      <input type="submit" class="btn  bg-primary col-lg-2 mt-2" value="Add">
+    </div>
+    
+    
+    </form>
+    <hr>
+    <div class="container">
+        <h3 class="display-2 text-center">MY TODO'S({{todos.count}})</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Sr No.</th>
+                    <th>Todo</th>
+                    <th>Time</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for todo in todos %}
+                <tr>
+                    <td scope="row">{{forloop.counter}}</td>
+                    <td>{{todo.todo}}</td>
+                    <td>{{todo.timestamp|naturaltime}}</td>
+                    <td>
+                        <form action="http://127.0.0.1:8000/todo/todo_del/{{todo.id}}" method="post">{% csrf_token %}
+                            <div class="form-group">
+                                <input type="submit" class="btn btn-sm bg-danger" value="Delete">
+                            </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+{% endblock body %}
